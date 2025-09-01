@@ -1,0 +1,40 @@
+18/08/2025
+
+cmd> mongosh
+
+listar os bancos de dados: show dbs
+
+não precisa ter o create database. Basta ter a insersão de dados que ele cria a coleção
+
+
+use mongotest (se não estiver criado, o sistema já cria o banco automaticamente)
+Se não inserir dados, ele não vai criar o banco de dados
+
+Criando a coleção de clientes:
+
+Inserindo apenas um registro no banco:
+db.clientes.insertOne({nome:"Joao da Silva",email:"joao.silva@email.com",idade:30});
+Enter
+Vai exibir uma chave primaria (object ID) do seu registro
+
+Para verificar se existe o banco de dados, basta dar um show dbs de novo
+
+exibir as coleções:
+show collections
+
+**atenção aos nomes da coleções pois o sistema pode criar coleções com nomes diferentes (ex: cliente / clientes)
+
+exibir as informações dentro da coleção:
+db.cliente.find()
+
+use local: vai mudar o prompt
+use mongoteste: volta para o banco de dados criado
+
+db.clientes.insertOne({}); -> comando para insersão de um registro na coleção
+
+db.clientes.insertMany([{nome:"Maria de Lima",email:"maria.lima@email.com",idade:25},{nome:"Carlos Souza",email:"carlos.souza@email.com",idade:28}]); -> insersão de vários registros no banco de dados. Precisa estar em um array, por isso o uso dos colchetes []
+
+db.clientes.find() -> vai exibir os registros inseridos
+
+
+

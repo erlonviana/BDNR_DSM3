@@ -1,0 +1,42 @@
+mongosh
+show dbs
+db.clientes.insertOne({"nome":"Joao Silva", "email":"joao.silva@email.com","idade":30}) + enter
+
+show collections
+
+db.clientes.find() -> vai exibir os dados dentro da coleção
+
+
+
+Se errar a digitação:
+
+db.cleintes.insertOne({"nome":"Wagner Toth", email:"Wagnertoth@email.com", idade:44})
+
+*Neste caso o MongoDB vai criar erroneamente uma coleção chamada clientes
+
+se pressionar o db.clientes.find(), não vai aparecer esta entrada
+
+em show collections, vai aparecer duas coleções (cleintes e clientes)
+
+Inserir vários dados:
+
+*Além das chaves e parênteses tbm precisa dos colchetes pois é um array:
+
+db.clientes.insertMany({{nome:"Maria Lima", email:"maria.lima@email.com", idade:"25},{nome:"Carlos Souza", email:"carlos.souza@email.com", idade:28}])
+
+**Parênteses significa uma função
+***Chaves são os registros
+***Colchetes são array
+
+
+
+Outra forma de inserção:
+
+db.clientes.insert([{nome:"Jose",idade:35},{nome:"Luiz",idade:29}])
+**Insert está substituindo o insertMany
+**para inserir apenas um registro basta remover as chaves
+
+db.clientes.find({idade:{"$gt":25}}) -> procurando uma idade maior do que 25 anos 
+db.clientes.find({idade:{"$gte":25}}) -> procurando uma idade maior ou igual a 25 anos
+
+ 

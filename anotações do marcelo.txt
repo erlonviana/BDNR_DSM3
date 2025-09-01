@@ -1,0 +1,19 @@
+Comandos ! do MongoShell
+
+mongosh // ativa o mongoshell
+
+show dbs // mostra os bancos
+
+use mongoteste // usa/cria banco
+
+show collections // mostra as coleçoes
+
+db.clientes.insertOne({nome:”nome”,email:”email”,idade:idade}); // insert de uma pessoa
+
+db.clientes.insertMany([{nome:”nome”,email:”email”,idade:idade},{nome:”nome”,email:”email”,idade:idade}]); // insert de varias pessoas
+
+db.clientes.find(), // mostra os dados das pessoas (quase isso)
+
+db.clientes.find({idade:{”$gt”:25}})  // procura a idade maior que 25
+
+db.clientes.find({idade:{”$gte”:25}})  // procura a idade maior e igual que 25

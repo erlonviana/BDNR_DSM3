@@ -1,0 +1,17 @@
+Continuando da aula anterior
+
+db.clientes.updateOne({nome:"Maria Lima"},{$set:{idade:26}}) //atualizando apenas um registro
+
+E se tiver mais de uma Maria Lima? Vai alterar o primeiro registro cadastrado
+
+se fizer um db.clientes.find({nome:"Maria Lima"}) vai aparecer a informação atualizada
+
+
+Alteração de múltiplos documentos:
+
+db.clientes.updateMany({idade:{$lt:30}},{$set:{status:"ativo"}}) //vai inserir(ou atualizar) o campo status=ativo nos clientes com idade menor do que 30
+
+Se utilizar o comando "alter" teria que inserir todos os registros (mesmo aqueles que vc não precisa realizar alteração)
+
+
+
