@@ -1,0 +1,85 @@
+Revisão de comandos Mongo Shell
+
+Show bds = lista todos os dbs
+
+use <nome_bd> = seleciona bd
+
+show collections = lista todas as coleções
+
+db.<coleção>.find() = retorna todos os documentos da coleção
+
+db.<coleção>.Insert(obj_json) = inserir documentos na coleção
+
+db.<coleção>.InsertOne(obj_json) = Inserir apenas um documento na coleção
+
+db.<coleção>.InsertMany({obj_json}] = inserir diversos documentos na coleção
+
+Comparativo SQL x MongoDB
+
+SQL:             | Mongo
+Select           | Find() / FindOne()
+Insert           | InsertOne/InsertMany
+Delete           | DeleteOne / DeleteMany
+Update           | UpdateOne / UpdateMany
+Top/limit        | Limit 
+Order By         | Sort
+Create index     | Create index
+Like             | Find (expressão regular) *like procura uma informação independente da posição onde esteja
+Create database  | Não se aplica
+Create table     | Não se aplica
+Count            | Count
+Group By         | Aggregate
+Distinct         | Distinct 
+
+Como fazer uma inserção de mais de um item de forma mais simples:
+
+Criar o array separa e na hora do insert vc aponta o array
+
+arrayClientes=[{nome:"Antônio Henrique Guedes", idade:28},{nome:"Sabrina Rodrigues", idade:32, cidade:"Iguape", estado:"SP"},{nome: "Izadora Oliveira",idade:21, email:"isadora.oliveira@email.com}] + enter vai criar o array
+
+Insert deste array:
+
+db.clientes.insertMany(arrayClientes) + enter vai inserir o array dentro do BD
+
+db.clientes.find({estado:"SP}) //procurando todos os clientes do estado de SP
+
+db.clientes.find({estado:"sp"}) // não vai encontrar pois é case sensitive
+
+db.clientes.findOne({estado:"SP"}) //retorna apenas o registro mais antigo
+
+db.clientes.find({cidade:{$regex:/Iguape/i}}) //procura todo valor que tiver a cidade=Iguape
+
+
+Operadores de filtro:
+
+$eq = exatamente igual
+$ne = diferente ( substitui o <> ou != )
+$gt = maior que
+$lt = menor que
+$gte = maior ou igual
+$let = menor ou igual
+$in = entre
+$all = mongo DB permite campos com array (aninhados)
+$or = faz dois filtros em uma única sintaxe
+
+exemplo: 
+
+db.clientes.find({$or:[{idade:35},{nome: "Izadora Oliveira"}]})
+
+db.clientes.find().skip(1).limit(10) //lista os registros pulando o mais antigo e limitando em 10 resultados
+
+Listagem organizada no MongoDB
+ASC: 1
+DESC: -1
+
+db.colecao.find().Sort({chave:1}) //ordenação ascendente
+db.colecao.find().sort({chave:-1}) //ordenação descendente
+
+Exemplo:
+db.clientes.find().sort({idade:1})
+
+Para fazer contagem de registros:
+db.clientes.find({estado:"SP"}).count()
+
+
+ 

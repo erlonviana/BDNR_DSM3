@@ -11,7 +11,62 @@ Alteração de múltiplos documentos:
 
 db.clientes.updateMany({idade:{$lt:30}},{$set:{status:"ativo"}}) //vai inserir(ou atualizar) o campo status=ativo nos clientes com idade menor do que 30
 
-Se utilizar o comando "alter" teria que inserir todos os registros (mesmo aqueles que vc não precisa realizar alteração)
+Se utilizar o comando "replace" teria que inserir todos os registros (mesmo aqueles que vc não precisa realizar alteração, senão o comando apagará todos os outros)
+
+trocar a chave de "nome" para "nome completo" -> neste caso precisaria utilizar replace
+
+db.clientes.replaceOne({nome:"Marcelo"},{nomeCompleto:"Marcelo Oliveira"}) //mas vai apagar todas as outras chaves que existam dentro do registro (cidade, status etc)
+
+Também é possível utilizar o replace para inserir mais informações além da alteração:
+
+db.clientes.replaceOne({nome:"Marcelo"},{nomeCompleto:"Marcelo Oliveira", cidade:"Registro", status:"Ativo"})
+
+exclusão de um registro de dentro da coleção
+
+db.clientes.deleteOne(nomeCompleto:"Marcelo Oliveira")
+
+Se fizer db.clientes.find(nomeCompleto:"Marcelo Oliveira") -> não vai mais aparecer na busca
+
+Para fazer a deleção em massa (todos com idade menor de que 30 anos):
+
+db.clientes.deleteMany({idade:{$lt:30}})
+vai confirmar a deleção
+db.clientes.find() -> vão aparecer menos registros no banco, comprovando a deleção
+
+show collections
+
+apagando uma coleção:
+
+db.cleintes.drop()
+
+Se fizer o show collections de novo, não vai mais aparecer o "cleintes"
+
+Deletar banco de dados:
+
+Entrar no banco
+
+db.dropdatabase()
+
+Se fizer um show dbs, não vai mais aparecer o banco de dados (embora o prompt continue exibindo o nome)
+
+Renomear coleção
+
+db.clientes.renameCollection("cliente") -> vai renomear de "clientes" para "cliente"
+
+Inserindo dados em clientes:
+
+db.clientes.insertMany([{"nome":"Lucas Almeida","email":"lucas.almeida@email.com","idade":28},{"nome":"Mariana Costa", "email":"mariana.costa@email.com","idade":34},{"nome":"Rafael Oliveira","email":"rafael.olveira@email.com","idade":22}])
+
+Atualização
+
+
+
+db.clientes.updateOne({nome: "Lucas Almeida"},{$set:{email: "lucas.almeida2025@example.com"}})
+
+db.clientes.updateOne({nome: "Mariana Costa"},{$inc: {idade:1}}) //inc é incremento
+
+db.clientes.updateOne({nome: "Rafael Oliveira"}, {$set: {nome: "Rafael O. Silva", email: "rafael.silva@example.com"}})
+
 
 
 
