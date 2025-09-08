@@ -1,0 +1,89 @@
+Modelagem SQL x Modelagem NoSQL
+
+Modelagem BD_Blog
+
+Artigos:
+ID - pk
+Titulo - varchar
+Dt_public - datetime
+Conteúdo - varchar
+IDAutor - fk
+Status - Int
+URL - varchar
+
+Autores:
+ID - pk
+Nome - varchar
+Bio - varchar
+foto - varchar
+Usuário - varchar unique
+senha - varchar
+
+Categorias:
+ID - pk
+Nome - Varchar
+Descrição - varchar
+
+Tags:
+ID - pk
+IDartigo - fk
+Nome - varchar
+
+
+Artigos/categorias:
+ID - pk
+IDArtigo - fk
+IDCategoria - fk
+
+Comentarios:
+ID - pk
+IDArtigo - fk
+Nome - Varchar
+Texto - Varchar
+Data - datetime
+
+ 
+               |Autores|
+                   |
+                   *
+                   |
+|Categorias|-*-|Artigos|-*-|Comentarios|
+	     |	   |		
+             |     *
+             |     |
+             |   |Tags|
+             |
+             |
+|Artigos/Categorias|
+
+BUSCA DE TODOS OS ARTIGOS REFERENTES UM AUTOR
+Select artigos.*, autor.nome.autor.id from artigos
+join autor on autor.id=artigo.idautor
+where artigo.url="xxx"
+
+Modelagem Blog (NoSQL)
+- Considerar não usar relacionamentos
+	. Se for para usar fk's usamos SQL.
+- Substituir relacionamento por composição de sub-documento
+- Criar um documento json que pertence a mesma coleção
+{ _id: ObjectID("123abc"), titulo : "Tutorial mongodb",
+Dt_public: NewDate("2025-08-30T16:00:02"),
+Conteúdo: "Introdução MongoDB",
+IDAutor : ObjectID("456def"), 
+Status: 1
+URL: "xxx"}
+
+Primeira diferença:
+- IDs não são numéricos e autoincrementáveis;
+- São objectID auto-incrementaveis.
+
+Segunda diferença: 
+- Não há schema rígido;
+- Flexibilidade na quantidade de informações dos documentos
+
+
+
+
+
+
+
