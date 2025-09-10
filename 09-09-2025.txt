@@ -1,0 +1,90 @@
+
+{ID: ObjectID("123abc), 
+titulo: "Tutorial MongoDB",
+DataPublicação: NewDate("2025-08-01T20:29:002"),
+Conteudo:"Introdução ao MongoDB",
+IDAutor: ObjectID("456def"). #toda vez que inserir o autor precisa informar o ObjectID. Melhor criar um subdocumento
+Status:1
+url: "xxxx"
+}
+
+Melhor fazer da seguinte forma:
+
+#Documento principal
+{ID: ObjectID("123abc), 
+titulo: "Tutorial MongoDB",
+DataPublicação: NewDate("2025-08-01T20:29:002"),
+Conteudo:"Introdução ao MongoDB",
+#subdocumento: quando eu fizer uma pesquisa o subdocumento ajuda a encontrar a informação + rapido
+Autor: {
+    _Id: ObjectID(456def),
+    Nome: "Luiz"
+},
+Status:1
+url: "xxxx"
+
+#array de documento
+Categoria:[{
+    _id: ObjectID("789ghi"),
+    nome:"Cat1"
+}],
+
+#array de string
+tag:["tag1", "tag2"]
+
+}
+
+MongoDB: trabalha bem com arquivos binarios embutidos em documentos. E: imagem
+no campo foto (funciona melhor que SQL)
+
+As categorias e TAGs como ficam?
+TAGS: são strings como no SQL e no modelo NoSQL. Então podemos usar um array de string para resolver.
+
+Categoria:
+_São mais complexas
+_Tem informações extras, como descrição.
+_Então usamos um array de subdocumento.
+
+Código:
+
+test> mongsh
+
+use localizacao
+(msg: switched to db localizacao)
+db.alunos.insertMany([
+    {nome: "Joao Victor Silva",
+    curso: "Programação Web",
+    localizacao: "rua wild jose de souza 38 Registro sp"},
+    {nome: "Gustavo Oliveira",
+    curso: "Introdução a Frontend",
+    Localizacao: "rua jonas banks leite 100 registro sp"},
+    {nome: "Cleonice Marcondes", 
+    curso: "Modelagem de Banco de Dados",
+    localizacao: "rua jose dias lopes 35  sete barras"}
+])
+
+show collections
+db.alunos.find
+
+#Atualizando registro
+
+db.alunos.update({_id: ObjectId(...)}, {$set:{localizacao:{endereco:"rua wild jose de souza 38 Registro sp",
+coordenates: [-24.496277011257764, -47.847357361437766], type:"Point" }}})
+
+db.alunos.find()
+
+#O registro do João vai aparecer diferente dos outros, com uma identação (subdocumento) com as informações
+que atualizamos
+
+db.alunos.update({id: ObjectId(...), {$set:{localizacao:{endereco:"rua jonas banks leite 100 registro sp",
+coordenates: [-24.487486621300445, -47.841296907468966], type: "Point"}}}})
+
+db.alunos.update({id: ObjectId(...), {$set:{localizacao:{endereco: "rua jose dias lopes 35  sete barras",
+coordenates: [-24.391215097089873, -47.92595360747373], type: "Point"}}}})
+
+Indexação
+A coordenada geografica não é de um planeta quadrado. Precisamos fazer uma Indexação esferica.
+Vamos utilizar um index 2D
+
+db.alunos.createIndex({Localizacao:"2dsphere"})
+
