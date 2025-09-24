@@ -1,0 +1,38 @@
+Data warehouse (DW)
+Centralizador de dados
+
+Transformar banco de dados não-relacional em banco relacional (padronizar)
+
+Vantagens:
+Alta disponibilidade do banco de dados (principalmente em alta demanda)
+
+Escalabilidade vertical: Upgrade do servidor (+barato) 
+Escabalidade horizontal: mais servidores
+
+Datamars: copia de banco de dados (ex: RH faz uma copia do banco principal para fazer o fechamento da folha de ponto)
+
+Datawarehouse: contém todas as informações de todos os bancos da empresa (Comercial, financeiro, rh etc etc). Pode ter dados duplicados, divergentes, em branco etc
+
+Precisa listar e fazer o saneamento dos dados
+
+Ruido: dado que não pertence aquele campo (ex: peso na tabela altura)
+Inconsistencia: dados que não representa a realidade (pessoa com 12 anos, viúvo com doutorado)
+
+Matriz de necessidade: funciona como a modelagem do 1° semestre, porém são perguntas do que o cliente precisa. Ex: vc tem um hotel, precisa saber em qual estado do Brasil mais se hospedam clientes. A matriz de necessidade é uma ferramenta muito útil no planejamento e projeto de um Data Warehouse (DW). Ela ajuda a garantir que o DW atenda de fato às necessidades do negócio e seja orientado às decisões estratégicas.
+
+Etapas antes de criar o Data Warehouse:
+1) Criar a matriz de necessidade
+2) Levantamento da fonte de dados (onde, tabelas, tipos de dados etc)
+3) Construção do modelo multidimensional para consultas do banco
+
+Matriz de necessidade:
+
+Linhas: descritores (Tempo, fornecedor, Peça, Cliente)
+Colunas: métricas (Transações Apólices, Pagamentos, Taxas, Operações web, Segurados)
+*Preencher com os gestores
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+{"nome": "FATEC Registro", "tipo": "CAMPUS", "localizacao": {"type": "Point", "coordinates": [-47.8446, -24.497]}}
+{"nome": "Terminal Rodoviário", "tipo": "TERMINAL", "localizacao": {"type": "Point", "coordinates": [-47.834389, -24.489405]}}
+{"nome": "Ponto de Encontro Norte", "tipo": "PONTO_ENCONTRO", "localizacao": {"type": "Point", "coordinates": [-47.829694, -24.504071]}}
+{"nome": "Ponto de Encontro Sul", "tipo": "PONTO_ENCONTRO", "localizacao": {"type": "Point", "coordinates": [-47.832582, -24.505861]}}
+{"nome": "Estação de Trem (Fictícia)", "tipo": "ESTACAO", "localizacao": {"type": "Point", "coordinates": [-47.812631, -24.500881]}}
+{"nome": "Centro Esportivo", "tipo": "PONTO_INTERESSE", "localizacao": {"type": "Point", "coordinates": [-47.859726, -24.523158]}}

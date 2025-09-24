@@ -1,0 +1,78 @@
+Agregando dados do nosso endereço:
+
+db.alunos.aggregate([{
+$geoNear:{
+near:{
+coordinates:[-24.34645, -47.346465], type:'Point'
+
+},
+distanceField:"distancia.calculada" //armazena a distancia dos pontos
+spherical:true
+},{$limit:4}
+}])
+
+renomeando chave
+db.alunos.updateMany({},{$rename:{"localizacao.coordenate":"localizacao.coordinates"}}) //prestar atenção pois é case sensitive
+
+remover e criar novamente o index
+listando todos os indexes
+db.alunos.getIndexes()//vai listar todos os index dentro do aluno
+
+Removendo index:
+bd.alunos.dropIndex("")
+
+Agora precisa recriar os indexes:
+db.alunos.createIndex({localizacao:"2dsphere"}) + enter
+
+Conferindo index:
+db.alunos.getIndexes()
+
+Agregando:
+db.alunos.aggregate([{
+$geoNear:{
+near:{
+coordinates:[-24.34645, -47.346465], type:'Point'
+
+},
+distanceField:"distancia.calculada" //armazena a distancia dos pontos
+spherical:true
+},{$limit:4}
+},
+{
+$skip:2
+}])
+
+Quando rodar db.alunos.getIndexes() vai mostrar os indexes com a chave "localização" já calculada
+
+Manipulação de dados
+
+Posso criar uma variável com uma informação e depois posso utilizá-la:
+dbtipos.> var valorDouble = 253.99;
+
+dbtipos> valorDouble + enter
+253.99 //mostra o valor salvo dentro da variável
+
+dbtipos> var localizacao={endereço:"Av Santos Dumont", numero:50, complemento: "sala 03", cidade:"Registro", estado:"SP"}
+
+dbtipos> localização + enter
+//vai mostrar os dados salvos
+
+db.colecaoObjeto.insertOne({empresa: "Fatec", ramo:"Educacao", local:localizacao})
+
+db.colecaoObjeto.find()// vai mostrar o local e os dados do objeto criado
+
+dbtipos> var cidadesAustralia = ["Sidney", "Melbourne", "Brisbane"];
+
+dbtipos> var cidadesUs=["Chicago", "Los Angeles", "Detroit"];
+
+dbtipos> var cidadesMexico= ["Guadalajara","Tijuana","Cancun"];
+
+Inserido em uma coleção todas estas cidades de uma única vez:
+bdtipos> db.colecaoArray.insertMany([{cidades1:cidadesAustralia},{cidades2:cidadesUs},{cidades3:cidadesMexico}]);
+
+bd.colecaoArray.find()
+
+
+
+
+
