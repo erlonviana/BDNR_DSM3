@@ -1,0 +1,90 @@
+Objetivo do Datawarehouse:
+Consolidação de dados
+Analise e relatórios
+Suporte a tomada de decisão
+Historização de dados
+
+É um sistema de gerenciamento de dados projetado para facilitar a analise e relatórios. Armazena grandes volumes de dados. É otimizado para leitura e analise, diferente dos bancos de dados tradicionais que são mais voltados para transações.
+
+Estruturado em tabelas dimensionais, facilitando a analise
+Focado em dados históricos
+Consultas complexas e analíticas, incluindo agregações e cálculos
+Otimizado para leitura rápida de grandes volumes
+Atualizações em lote, normalmente em períodos específicos (ETL)
+
+Importância:
+informações confiáveis e consistentes
+Análise histórica
+Suporte à análise multidimensional (facilita a análise de dados sob diferentes perspectivas)
+Eficiencia de tomada de decisões
+Identificação de oportunidades
+Apoio à sistemas BI
+
+Tabela de fato é um componente central do DW. Armazena dados quantitativos (métricas) que podem ser analisadas e calculadas.
+
+Estrutura de tabela de fato:
+
+Chave primaria - A tabela de fato tem uma chave primaria composta, que é uma combinação de chaves estrangeiras que se referem às tabelas dimensão. Isso garante a singularidade de cada linha.
+
+Colunas de medidas - as medidas são valores numéricos que vc deseja analisar. Por exemplo, as vendas totais, números de reservas, lucro etc
+
+Chaves estrangeiras - A tabela fato contém chaves estrangeiras que se referem às tabelas dimensão. Isso permite que vc conecte os dados quantitativos as informações contextuais que estão nas dimensões.
+
+Criando banco de dados:
+
+Xampp e Workbench
+
+/*Ambiente de produção*/
+create database if not exists HotelDallasProd;
+
+use HotelDallasProd;
+
+create table clientes
+(
+id_Cliente int primary key,
+nome varchar(100),
+idade INT,
+pais varchar(50)
+);
+
+create table Reservas
+(
+id_Reserva int primary key,
+id_Cliente int,
+data_entrada date,
+data_saida date,
+numero_noites int,
+foreign key (id_cliente) references clientes(id_cliente)
+);
+
+create table quartos 
+(
+id_quarto int primary key,
+tipo_quarto varchar(50),
+andar int;
+preco_diaria decimal(10,2)
+);
+
+create table servicos
+(
+id_servico int primary key,
+nome_servico varchar(100),
+categoria varchar(50),
+preco decimal(10,2)
+);
+
+create table ocupacoes
+(
+id_ocupacao int primary key,
+id_cliente int,
+id_reserva int,
+id_quarto int,
+data date,
+id_servico int,
+quantidade int,
+valor_total decimal(10,2),
+foreign key(id_cliente) references clientes(id_cliente),
+foreign key(id_reserva) references reservas(id_reserva),
+foreign key(id_quarto) references quartos(id_quarto),
+foreign key (id_servico) references servicos(id_servico)
+);
