@@ -1,0 +1,17 @@
+Exercício 2 - ATV1 - Consultas por Geolocalização
+Data de conclusão 29 de setembro de 2025 às 18:30
+•
+Fecha 29 de setembro de 2025 às 18:30
+Instruções
+Abaixo segue arquivos em anexo que iram lhe auxiliar na realização da Atividade GeoLocalizacao.docx.
+
+Os arquivos pontos.json e inscricoes.json são arquivo com massa de dados para serem inseridos no banco de dados proposto.
+
+O arquivo README_mongo_geolocalizacao.txt é um arquivo txt com todas orientações e exemplos de aplicações de diversas consultas que irá lhe auxiliar na resolução da atividade.
+
+observação: O nome do Banco de Dados deverá ser DSM_Geo_SeuNome
+
+Sendo assim você deverá baixar todos os arquivos em anexo, e seguir todas as orientações para realizar a atividade com sucesso.
+
+Como enviar:
+Você deverá printar o resultado e o comando MongoSH que utilizou para a realização da consulta solicita no arquivo de Atividade, que deverá ser salvo com seu nome compondo o nome do arquivo. "Atividade GeoLocalizacao SeuNome.docx"

@@ -38,16 +38,17 @@ categoria varchar(50),
 preco decimal(10, 2)
 );
 
-create table oucupacoes
+-- CORREÇÃO: trocar oucupacoes por ocupacoes
+create table ocupacoes
 (
-id_oucupacao int primary key,
+id_ocupacao int primary key,
 id_cliente int,
 id_reserva int,
 id_quarto int,
 data date,
 id_servico int,
 quantidade int,
-valor_total decimaL(10,2),
+valor_total decimal(10,2),
 foreign key (id_cliente)references clientes(id_cliente),
 foreign key (id_reserva) references reservas(id_reserva),
 foreign key (id_quarto) references quartos(id_quarto),
@@ -78,8 +79,9 @@ insert into Servicos (id_servico, nome_servico, categoria, preco) values
 (2, 'SPA', 'Bem-estar', 120.00),
 (3, 'Lavanderia', 'servico', 50.00);
 
-insert into oucupacoes (id_oucupacao, id_cliente, id_reserva, id_quarto, data, id_servico, quantidade,
-						valor_total) values
+-- CORREÇÃO: trocar oucupacoes por ocupacoes
+insert into ocupacoes (id_ocupacao, id_cliente, id_reserva, id_quarto, data, id_servico, quantidade,
+                        valor_total) values
 (1,1,1,1,'2023-02-10',1,1,500.00),
 (2,2,2,2,'2023-02-12',2,1,300.00),                        
 (3,3,3,3,'2023-02-05',3,1,450.00);
@@ -132,9 +134,10 @@ preco decimal(10,2)
 );
 
 -- Tabela Fato, irá relacionar todas as tabelas
-create table fatoOucupacao
+-- CORREÇÃO: trocar fatoOucupacao por fatoOcupacao
+create table fatoOcupacao
 (
-id_oucupacao int primary key,
+id_ocupacao int primary key,
 id_cliente int,
 id_reserva int,
 id_quarto int,
@@ -159,10 +162,68 @@ select id_cliente, nome, idade, pais from hoteldallasprod.clientes;
 select * from dimclientes;
 
 -- Extração da tabela reservas para tabela DimReserva DW
-insert into dimreserva (Id_Reserva, Data_Entrada, Data_saida, numero_noites)
+insert into DimReservas (Id_Reserva, Data_Entrada, Data_saida, numero_noites)
 select Id_Reserva, Data_Entrada, Data_Saida, Numero_noites from hoteldallasprod.Reservas;
 
-select * from dimreserva;
+select * from dimreservas;
 
--- Extração da tabela Quartos para DimQuarto DW (Id_Quarto, Tipo_Quarto, Andar, preço_diaria)
+-- Extração da tabela Quartos para DimQuarto DW
+INSERT INTO DimQuarto (ID_Quarto, Tipo_Quarto, Andar, Preco_Diaria)
+SELECT ID_Quarto, Tipo_Quarto, Andar, Preco_Diaria
+FROM HotelDallasProd.Quartos;
 
+-- Extraindo e inserindo dados na DimServico
+INSERT INTO DimServico (ID_Servico, Nome_Servico, Categoria, Preco)
+SELECT ID_Servico, Nome_Servico, Categoria, Preco
+FROM hoteldallasprod.Servicos;
+
+-- Populando DimTempo 
+-- CORREÇÃO: trocar Ocupacoes por ocupacoes
+INSERT INTO DimTempo (Id_Tempo, Data, Ano, Mes, Trimestre, Dia_Semana)
+select
+    row_number() over (order by Data) as Id_Tempo,
+    Data,
+    Year(Data) as Ano, 
+    Month(Data) as Mes,
+    Quarter(Data) as Trimestre,
+    dayname(Data) as Dia_Semana
+from (select distinct Data from hoteldallasprod.ocupacoes) as T;
+
+Select * from dimTempo;
+
+Select * from hoteldallasprod.ocupacoes;
+
+-- Extração dos dados da tabela Ocupação para a tabela FatoOcupação DW
+-- CORREÇÃO: trocar oucupacoes por ocupacoes e ajustar colunas
+insert into fatoOcupacao (id_ocupacao, id_cliente, id_reserva, id_quarto, id_tempo, id_servico,
+quantidade, valor_total)
+select
+    ocupacoes.id_ocupacao,
+    ocupacoes.id_cliente,
+    ocupacoes.id_reserva,
+    ocupacoes.id_quarto,
+    T.id_tempo,
+    ocupacoes.id_servico,
+    ocupacoes.quantidade, 
+    ocupacoes.valor_total
+From hoteldallasprod.ocupacoes
+join dimtempo as T on T.Data = ocupacoes.Data;
+
+select * from fatoocupacao;
+
+-- Exemplo 1: Taxa de ocupação por Mês
+Select DimTempo.mes, count(fatoocupacao.id_ocupacao) as Ocupacao
+from fatoocupacao
+join dimtempo on fatoocupacao.id_tempo=dimtempo.id_tempo;
+
+-- Exemplo 2: Faturamento Total por Tipo de Quarto
+SELECT DimQuarto.Tipo_Quarto, SUM(FatoOcupacao.Valor_Total) AS Faturamento_Total
+FROM FatoOcupacao
+JOIN DimQuarto ON FatoOcupacao.ID_Quarto = DimQuarto.ID_Quarto
+GROUP By DimQuarto.Tipo_Quarto;
+
+-- Exemplo 3: Servicos mais utilizados pelos hospedes
+SELECT DimServico.Nome_Servico, COUNT(FatoOcupacao.ID_Ocupacao) AS Utilizacoes
+FROM FatoOcupacao
+JOIN DimServico On FatoOcupacao.ID_Servico = DimServico.ID_Servico
+GROUP BY DimServico.Nome_Servico;

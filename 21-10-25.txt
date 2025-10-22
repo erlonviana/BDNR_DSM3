@@ -1,0 +1,81 @@
+//getSiblingDB -> troca de banco de dados dentro do mesmo script ou sessão sem precisar 
+utilizar o comando USE
+//dropDatabase é para iniciar com o banco totalmente limpo
+Db.getSiblingDB("HotelFonte").dropDatabase()
+
+//Ambiente
+db.getSibling("HotelFonte").dropDataBase();
+db.getSibling("HotelDW");
+
+
+
+
+//Criando constantes
+
+const dbProd = "HotelProducao"; 
+const prod = db.getSiblingDB("dbProd");
+
+//Coleção e dados
+prod.createCollection("clientes"); //a coleção está criada mas não tem dados
+
+prod.Clientes.insertMany([
+{_id:1001, nome:"Ana Souza", pais:"BR"},
+{_id:1002, nome:"João Lima", pais:"BR"},
+{_id:1003, nome:"Pedro Santos", pais:"AR"},
+])
+
+se fizer prod.clientes.find() -> é possível consultar uma coleção em outro banco de dados sem sair do banco atual
+
+prod.reservas.inserMany([
+{_id:5001, cliente_id:1001, quarto_id:201, checkin:new Date ("2025-04-18"), checkout:new Date("2025-04-20"), status:"Fechada"},
+{_id:5002, cliente_id:1002, quarto_id:202, checkin:new Date ("2025-05-02"), checkout:new Date("2025-05-06"), status:"Fechada"},
+{_id:5003, cliente_id:1003, quarto_id:203, checkin:new Date ("2025-06-10"), checkout:new Date("2025-06-12"), status:"Fechada"},
+{_id:5004, cliente_id:1004, quarto_id:204, checkin:new Date ("2025-06-15"), checkout:new Date("2025-06-18"), status:"Fechada"}
+]);
+
+prod.servicos.insertMany([
+{_id:1, nome:"Cafe da Manhã", tipo:"Alimentação", preco:30},
+{_id:2, nome:"Lavanderia", tipo:"Lavanderia", preco:25},
+{_id:3, nome:"SPA", tipo:"SPA", preco:120},
+]);
+
+prod.itens_servico.insertMany([
+{reserva_id:5001, servico_id:1, quantidade:2, valor unitário:30},
+{reserva_id:5002, servico_id:1, quantidade:4, valor unitário:30},
+{reserva_id:5002, servico_id:2, quantidade:3, valor unitário:25},
+{reserva_id:5003, servico_id:3, quantidade:1, valor unitário:120},
+{reserva_id:5004, servico_id:1, quantidade:3, valor unitário:30},
+{reserva_id:5004, servico_id:2, quantidade:2, valor unitário:25},
+]);
+
+showdb.collections vai mostrar todas as coleções criadas
+
+//Criando DW - Estrutura + Helpers com UPSERT seguro
+//obj: montar as dimensões, fatos e funções úteis (com patch evitando erros)
+
+const db_DW = "HotelDW";
+const dw = db.getSiblingDB(db_DW)
+
+//Garantir coleções
+["dim_clientes","dim_quarto", "dim_tempo","dim_servico","fato reserva","fato serviço","counters"]
+.forEach(c=>{if(!dw.getCollectionNames().includes(c) dw.createCollection(c);});
+
+//Criando Índices de Dimensões
+dw.dim_cliente.createIndex({nk_cliente:1},{unique:true};
+dw.dim_quarto.createIndex({nk_quarto:1},{unique:true};
+dw.dim_servico.createIndex({nk_servico:1},{unique:true};
+dw.dim_tempo.createIndex({data:1},{unique:true};
+
+//Função de sequencia com UPSERT (evita value:null)
+function nextSeq(name){
+	const res = dw.counters.findOneAndUpdate(
+	{id:name},
+	{$inc:{seq:1}},
+	{upsert: true, returnDocument:"afeter"}
+);
+
+return(res && res.value & typeof res.value.seq =="number")?res.values.seq:1;
+}
+
+
+
