@@ -1,0 +1,91 @@
+#Entrega
+O arquivo final deve conter:
+Comando para selecionar o banco (use LogisticaDB_Mongo):
+Use LogisticaDB_Mongo
+
+Criação das coleções;
+Para a criação das coleções não precisa utilizar "create", basta inserir os dados.
+
+Inserção da massa de dados (insertMany);
+db.clientes.insertMany([
+    {id_cliente:1,razao_social:"Supermercados BomPreço Ltda",cnpj:"12.345.678/0001-90",telefone:"(13) 3821-1100", cidade:"Registro", uf:"SP"},
+    {id_cliente:2,razao_social:"Frigorífico Vale do Ribeira S/A",cnpj:"98.765.432/0001-55",telefone:"(13) 3822-9988", cidade:"Pariquera-Açu", uf:"SP"},
+    {id_cliente:3,razao_social:"Bananas Ouro do Vale ME",cnpj:"45.111.222/0001-33",telefone:"(13) 99777-2211", cidade:"Sete Barras", uf:"SP"},
+    {id_cliente:4,razao_social:"Farmácia Popular Ribeirinha Ltda",cnpj:"22.333.444/0001-12",telefone:"(13) 3848-1122", cidade:"Eldorado", uf:"SP"}
+    ]); -> insersão de vários registros no banco de dados. Precisa estar em um array, por isso o uso dos colchetes []
+
+db.motoristas.insertMany([
+    {id_motorista:1,nome:"Carlos Alberto da Silva",cpf:"123.456.789-00",categoria_cnh:"E",status:"ATIVO"},
+    {id_motorista:2,nome:"Marcos Souza Ferreira",cpf:"987.654.321-11",categoria_cnh:"D",status:"ATIVO"},
+    {id_motorista:3,nome:"Jonas Pereira Santos",cpf:"111.222.333-44",categoria_cnh:"C",status:"FERIAS"},
+    {id_motorista:4,nome:"Renata Oliveira Lima",cpf:"555.666.777-88",categoria_cnh:"D",status:"ATIVO"}
+    ]); 
+
+db.veiculos.insertMany([
+    {id_veiculo:1,placa:"ABC1D23",tipo:"CARRETA",capacidade_kg:32000.00,ano_fabricacao:2022,status:"ROTA"},
+    {id_veiculo:2,placa:"FGH4I56",tipo:"TRUCK",capacidade_kg:14000.00,ano_fabricacao:2021,status:"DISPONIVEL"},
+    {id_veiculo:3,placa:"JKL7M89",tipo:"3/4",capacidade_kg:3500.00,ano_fabricacao:2020,status:"MANUTENCAO"},
+    {id_veiculo:4,placa:"NOP0Q12",tipo:"VAN",capacidade_kg:1200.00,ano_fabricacao:2023,status:"DISPONIVEL"}
+    ]); 
+
+db.pedidos_transporte.insertMany([
+    {id_pedido:1,id_cliente:1,descricao_carga:"Carga seca - alimentos não perecíveis",peso_total_kg:12000.50,volume_m3:38.2,origem_cidade:"Registro",origem_uf:"SP",destino_cidade:"Cajati",destino_uf:"SP",data_solicitacao:2025-10-20,prazo_entrega:2025-10-21,valor_frete:3500.00},
+    {id_pedido:2,id_cliente:2,descricao_carga:"Carnes resfriadas bovinas",peso_total_kg:18000.00,volume_m3:45.0,origem_cidade:"Pariquera-Açu",origem_uf:"SP",destino_cidade:"Curitiba",destino_uf:"PR",data_solicitacao:2025-10-19,prazo_entrega:2025-10-20,valor_frete:5200.00},
+    {id_pedido:3,id_cliente:3,descricao_carga:"Caixas de banana nanica premium",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:2025-10-18,prazo_entrega:2025-10-19,valor_frete:4100.00},
+    {id_pedido:4,id_cliente:4,descricao_carga:"Medicamentos e dermocosméticos",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:2025-10-18,prazo_entrega:2025-10-19,valor_frete:4100.00},
+    ]);
+
+db.entregas.insertMany([
+    {id_entrega:1,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Atacadão Cajati - CD Principal",data_saida:2025-10-20 07:30:00,data_entrega:2025-10-20 10:10:00,status_entrega:"ENTREGUE",km_percorrido:85,ocorrencia:"—"},
+    {id_entrega:2,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Supermercado BomPreço - Filial Cajati",data_saida:2025-10-20 10:30:00,data_entrega:2025-10-20 11:20:00,status_entrega:"ENTREGUE",km_percorrido:18,ocorrencia:"Pequeno atraso por trânsito urbano"},
+    {id_entrega:3,id_pedido:2,id_motorista:2,id_veiculo:1,destino_final:"Rede Churrasqueiras Sul - Curitiba",data_saida:2025-10-19 06:00:00,data_entrega:2025-10-19 14:40:00,status_entrega:"ENTREGUE",km_percorrido:240,ocorrencia:"Temperatura mantida 4°C"},
+    {id_entrega:4,id_pedido:3,id_motorista:4,id_veiculo:2,destino_final:"Ceagesp - Módulo Frutas SP",data_saida:2025-10-18 23:15:00,data_entrega:—,status_entrega:"EM_ROTA",km_percorrido:180,ocorrencia:"—"},
+    {id_entrega:5,id_pedido:4,id_motorista:4,id_veiculo:4,destino_final:"Farmácia Popular Ribeirinha - Matriz Registro",data_saida:2025-10-20 08:00:00,data_entrega:2025-10-20 09:40:00,status_entrega:"ATRASADA",km_percorrido:42,ocorrencia:"Blitz sanitária na BR-116"},
+    ])
+
+Todas as consultas do item 4, com comentários explicativos.
+
+4. Consultas MongoDB Obrigatórias
+A seguir estão as consultas que devem ser implementadas e testadas no banco LogisticaDB_Mongo.
+ Antes de cada comando, adicione um comentário (//) explicando o que a consulta faz.
+Importante:
+ Todas as consultas devem ser realizadas no MongoDB (mongosh).
+ Utilize as operações find() e aggregate() conforme o tipo de consulta exigir.
+ 
+4.1
+O gerente de operações quer ver apenas as entregas que ainda não foram concluídas.
+Liste id_entrega, destino_final, status_entrega, data_saida, data_entrega somente das entregas cujo status NÃO seja "ENTREGUE".
+ 
+4.2
+O setor financeiro quer priorizar cargas caras e urgentes.
+Liste id_pedido, descricao_carga, valor_frete, prazo_entrega,
+ ordenando primeiro pelo valor do frete (do maior para o menor)
+ e, em caso de empate, pelo prazo de entrega (do mais cedo para o mais tarde).
+ 
+ 
+ 
+4.3
+A coordenação quer saber o esforço de cada motorista.
+Mostre o nome do motorista e o total de quilômetros percorridos somando todas as entregas.
+ Use agregação e agrupe por motorista.
+ 
+4.4
+O supervisor quer analisar as entregas realizadas entre 18 e 20 de outubro de 2025.
+Mostre id_entrega, data_saida, status_entrega e km_percorrido
+ apenas das entregas cuja saída esteja entre 2025-10-18 00:00:00 e 2025-10-20 23:59:59.
+ Use o operador BETWEEN equivalente em MongoDB ($gte e $lte).
+ 
+4.5
+Monte um relatório de entregas concluídas, unindo informações de cliente, pedido, motorista e veículo.
+Mostre:
+ id_entrega, destino_final, data_entrega,
+ nome do motorista, placa do veículo, descricao_carga e razao_social do cliente.
+Utilize INNER JOIN equivalente em MongoDB ($lookup)
+ entre as coleções entregas, motoristas, veiculos, pedidos_transporte e clientes.
+ Considere apenas entregas com status "ENTREGUE".
+ 
+4.6
+A gerência de frota quer saber o uso de cada veículo, inclusive os que ainda não rodaram.
+Liste id_veiculo, placa, tipo, status e a quantidade de entregas realizadas por cada veículo.
+Use LEFT JOIN equivalente em MongoDB ($lookup) e agrupamento por veículo.
+ Veículos sem entrega devem aparecer com quantidade igual a 0.
