@@ -1,91 +1,308 @@
-#Entrega
-O arquivo final deve conter:
-Comando para selecionar o banco (use LogisticaDB_Mongo):
-Use LogisticaDB_Mongo
+// Entrega
+// O arquivo final deve conter:
+// Comando para selecionar o banco (use LogisticaDB_Mongo):
+use LogisticaDB_Mongo
 
-Criação das coleções;
-Para a criação das coleções não precisa utilizar "create", basta inserir os dados.
+// Criação das coleções;
+// Para a criação das coleções não precisa utilizar "create", basta inserir os dados.
 
-Inserção da massa de dados (insertMany);
+// Inserção da massa de dados (insertMany);
 db.clientes.insertMany([
     {id_cliente:1,razao_social:"Supermercados BomPreço Ltda",cnpj:"12.345.678/0001-90",telefone:"(13) 3821-1100", cidade:"Registro", uf:"SP"},
     {id_cliente:2,razao_social:"Frigorífico Vale do Ribeira S/A",cnpj:"98.765.432/0001-55",telefone:"(13) 3822-9988", cidade:"Pariquera-Açu", uf:"SP"},
     {id_cliente:3,razao_social:"Bananas Ouro do Vale ME",cnpj:"45.111.222/0001-33",telefone:"(13) 99777-2211", cidade:"Sete Barras", uf:"SP"},
     {id_cliente:4,razao_social:"Farmácia Popular Ribeirinha Ltda",cnpj:"22.333.444/0001-12",telefone:"(13) 3848-1122", cidade:"Eldorado", uf:"SP"}
-    ]); -> insersão de vários registros no banco de dados. Precisa estar em um array, por isso o uso dos colchetes []
+]);
 
 db.motoristas.insertMany([
     {id_motorista:1,nome:"Carlos Alberto da Silva",cpf:"123.456.789-00",categoria_cnh:"E",status:"ATIVO"},
     {id_motorista:2,nome:"Marcos Souza Ferreira",cpf:"987.654.321-11",categoria_cnh:"D",status:"ATIVO"},
     {id_motorista:3,nome:"Jonas Pereira Santos",cpf:"111.222.333-44",categoria_cnh:"C",status:"FERIAS"},
     {id_motorista:4,nome:"Renata Oliveira Lima",cpf:"555.666.777-88",categoria_cnh:"D",status:"ATIVO"}
-    ]); 
+]);
 
 db.veiculos.insertMany([
     {id_veiculo:1,placa:"ABC1D23",tipo:"CARRETA",capacidade_kg:32000.00,ano_fabricacao:2022,status:"ROTA"},
     {id_veiculo:2,placa:"FGH4I56",tipo:"TRUCK",capacidade_kg:14000.00,ano_fabricacao:2021,status:"DISPONIVEL"},
     {id_veiculo:3,placa:"JKL7M89",tipo:"3/4",capacidade_kg:3500.00,ano_fabricacao:2020,status:"MANUTENCAO"},
     {id_veiculo:4,placa:"NOP0Q12",tipo:"VAN",capacidade_kg:1200.00,ano_fabricacao:2023,status:"DISPONIVEL"}
-    ]); 
+]);
 
 db.pedidos_transporte.insertMany([
-    {id_pedido:1,id_cliente:1,descricao_carga:"Carga seca - alimentos não perecíveis",peso_total_kg:12000.50,volume_m3:38.2,origem_cidade:"Registro",origem_uf:"SP",destino_cidade:"Cajati",destino_uf:"SP",data_solicitacao:2025-10-20,prazo_entrega:2025-10-21,valor_frete:3500.00},
-    {id_pedido:2,id_cliente:2,descricao_carga:"Carnes resfriadas bovinas",peso_total_kg:18000.00,volume_m3:45.0,origem_cidade:"Pariquera-Açu",origem_uf:"SP",destino_cidade:"Curitiba",destino_uf:"PR",data_solicitacao:2025-10-19,prazo_entrega:2025-10-20,valor_frete:5200.00},
-    {id_pedido:3,id_cliente:3,descricao_carga:"Caixas de banana nanica premium",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:2025-10-18,prazo_entrega:2025-10-19,valor_frete:4100.00},
-    {id_pedido:4,id_cliente:4,descricao_carga:"Medicamentos e dermocosméticos",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:2025-10-18,prazo_entrega:2025-10-19,valor_frete:4100.00},
-    ]);
+    {id_pedido:1,id_cliente:1,descricao_carga:"Carga seca - alimentos não perecíveis",peso_total_kg:12000.50,volume_m3:38.2,origem_cidade:"Registro",origem_uf:"SP",destino_cidade:"Cajati",destino_uf:"SP",data_solicitacao:ISODate("2025-10-20"),prazo_entrega:ISODate("2025-10-21"),valor_frete:3500.00},
+    {id_pedido:2,id_cliente:2,descricao_carga:"Carnes resfriadas bovinas",peso_total_kg:18000.00,volume_m3:45.0,origem_cidade:"Pariquera-Açu",origem_uf:"SP",destino_cidade:"Curitiba",destino_uf:"PR",data_solicitacao:ISODate("2025-10-19"),prazo_entrega:ISODate("2025-10-20"),valor_frete:5200.00},
+    {id_pedido:3,id_cliente:3,descricao_carga:"Caixas de banana nanica premium",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:ISODate("2025-10-18"),prazo_entrega:ISODate("2025-10-19"),valor_frete:4100.00},
+    {id_pedido:4,id_cliente:4,descricao_carga:"Medicamentos e dermocosméticos",peso_total_kg:8000.00,volume_m3:60.0,origem_cidade:"Sete Barras",origem_uf:"SP",destino_cidade:"São Paulo",destino_uf:"SP",data_solicitacao:ISODate("2025-10-18"),prazo_entrega:ISODate("2025-10-19"),valor_frete:4100.00}
+]);
 
 db.entregas.insertMany([
-    {id_entrega:1,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Atacadão Cajati - CD Principal",data_saida:2025-10-20 07:30:00,data_entrega:2025-10-20 10:10:00,status_entrega:"ENTREGUE",km_percorrido:85,ocorrencia:"—"},
-    {id_entrega:2,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Supermercado BomPreço - Filial Cajati",data_saida:2025-10-20 10:30:00,data_entrega:2025-10-20 11:20:00,status_entrega:"ENTREGUE",km_percorrido:18,ocorrencia:"Pequeno atraso por trânsito urbano"},
-    {id_entrega:3,id_pedido:2,id_motorista:2,id_veiculo:1,destino_final:"Rede Churrasqueiras Sul - Curitiba",data_saida:2025-10-19 06:00:00,data_entrega:2025-10-19 14:40:00,status_entrega:"ENTREGUE",km_percorrido:240,ocorrencia:"Temperatura mantida 4°C"},
-    {id_entrega:4,id_pedido:3,id_motorista:4,id_veiculo:2,destino_final:"Ceagesp - Módulo Frutas SP",data_saida:2025-10-18 23:15:00,data_entrega:—,status_entrega:"EM_ROTA",km_percorrido:180,ocorrencia:"—"},
-    {id_entrega:5,id_pedido:4,id_motorista:4,id_veiculo:4,destino_final:"Farmácia Popular Ribeirinha - Matriz Registro",data_saida:2025-10-20 08:00:00,data_entrega:2025-10-20 09:40:00,status_entrega:"ATRASADA",km_percorrido:42,ocorrencia:"Blitz sanitária na BR-116"},
-    ])
+    {id_entrega:1,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Atacadão Cajati - CD Principal",data_saida:ISODate("2025-10-20T07:30:00Z"),data_entrega:ISODate("2025-10-20T10:10:00Z"),status_entrega:"ENTREGUE",km_percorrido:85,ocorrencia:null},
+    {id_entrega:2,id_pedido:1,id_motorista:1,id_veiculo:2,destino_final:"Supermercado BomPreço - Filial Cajati",data_saida:ISODate("2025-10-20T10:30:00Z"),data_entrega:ISODate("2025-10-20T11:20:00Z"),status_entrega:"ENTREGUE",km_percorrido:18,ocorrencia:"Pequeno atraso por trânsito urbano"},
+    {id_entrega:3,id_pedido:2,id_motorista:2,id_veiculo:1,destino_final:"Rede Churrasqueiras Sul - Curitiba",data_saida:ISODate("2025-10-19T06:00:00Z"),data_entrega:ISODate("2025-10-19T14:40:00Z"),status_entrega:"ENTREGUE",km_percorrido:240,ocorrencia:"Temperatura mantida 4°C"},
+    {id_entrega:4,id_pedido:3,id_motorista:4,id_veiculo:2,destino_final:"Ceagesp - Módulo Frutas SP",data_saida:ISODate("2025-10-18T23:15:00Z"),data_entrega:null,status_entrega:"EM_ROTA",km_percorrido:180,ocorrencia:null},
+    {id_entrega:5,id_pedido:4,id_motorista:4,id_veiculo:4,destino_final:"Farmácia Popular Ribeirinha - Matriz Registro",data_saida:ISODate("2025-10-20T08:00:00Z"),data_entrega:ISODate("2025-10-20T09:40:00Z"),status_entrega:"ATRASADA",km_percorrido:42,ocorrencia:"Blitz sanitária na BR-116"}
+])
 
-Todas as consultas do item 4, com comentários explicativos.
+// Todas as consultas do item 4, com comentários explicativos.
 
-4. Consultas MongoDB Obrigatórias
-A seguir estão as consultas que devem ser implementadas e testadas no banco LogisticaDB_Mongo.
- Antes de cada comando, adicione um comentário (//) explicando o que a consulta faz.
-Importante:
- Todas as consultas devem ser realizadas no MongoDB (mongosh).
- Utilize as operações find() e aggregate() conforme o tipo de consulta exigir.
+// 4. Consultas MongoDB Obrigatórias
+// A seguir estão as consultas que devem ser implementadas e testadas no banco LogisticaDB_Mongo.
+// Antes de cada comando, adicione um comentário (//) explicando o que a consulta faz.
+// Importante:
+// Todas as consultas devem ser realizadas no MongoDB (mongosh).
+// Utilize as operações find() e aggregate() conforme o tipo de consulta exigir.
  
-4.1
-O gerente de operações quer ver apenas as entregas que ainda não foram concluídas.
-Liste id_entrega, destino_final, status_entrega, data_saida, data_entrega somente das entregas cujo status NÃO seja "ENTREGUE".
+// 4.1
+// O gerente de operações quer ver apenas as entregas que ainda não foram concluídas.
+// Liste id_entrega, destino_final, status_entrega, data_saida, data_entrega somente das entregas cujo status NÃO seja "ENTREGUE".
+// Resposta:
+// Comando "find" faz a busca dentro da coleção status_entrega seja diferente ($ne=not equal) de "ENTREGUE".
+// Entre colchetes são escolhidos os campos desejados marcados com ":1" para garantir a exibição.
+// "_id: 0" Remove o campo _id padrão do mongoDB do resultado
+db.entregas.find(
+    { status_entrega: { $ne: "ENTREGUE" } },
+    { 
+        id_entrega: 1, 
+        destino_final: 1, 
+        status_entrega: 1, 
+        data_saida: 1, 
+        data_entrega: 1,
+        _id: 0 
+    }
+)
  
-4.2
-O setor financeiro quer priorizar cargas caras e urgentes.
-Liste id_pedido, descricao_carga, valor_frete, prazo_entrega,
- ordenando primeiro pelo valor do frete (do maior para o menor)
- e, em caso de empate, pelo prazo de entrega (do mais cedo para o mais tarde).
+// 4.2
+// O setor financeiro quer priorizar cargas caras e urgentes.
+// Liste id_pedido, descricao_carga, valor_frete, prazo_entrega,
+// ordenando primeiro pelo valor do frete (do maior para o menor)
+// e, em caso de empate, pelo prazo de entrega (do mais cedo para o mais tarde).
+// Resposta
+// Comando "find" faz a busca dentro da coleção pedidos_transporte
+// Como não há um valor específico a ser buscado, o primeiro array {} fica vazio
+// Na sequencia, no próximo array {} são escolhidos os campos desejados, marcados com ":1" para garantir sua exibição
+// O comando .sort define a ordem de exibição dos resultados
+// "valor_frete: -1" Ordena por valor_frete DESCENDENTE (maior para menor)
+// "prazo_entrega: 1" Ordena por prazo_entrega ASCENDENTE (mais cedo para mais tarde)
+// "_id: 0" Remove o campo _id padrão do mongoDB do resultado
+db.pedidos_transporte.find(
+    {},
+    { 
+        id_pedido: 1, 
+        descricao_carga: 1, 
+        valor_frete: 1, 
+        prazo_entrega: 1,
+        _id: 0
+    }
+).sort({
+    valor_frete: -1,  
+    prazo_entrega: 1    
+})
  
+// 4.3
+// A coordenação quer saber o esforço de cada motorista.
+// Mostre o nome do motorista e o total de quilômetros percorridos somando todas as entregas.
+// Use agregação e agrupe por motorista.
+// Resposta
+// Agregação é pelo comando aggregate
+// "$lookup" Faz um JOIN com a coleção motoristas para obter o nome de cada motorista
+// "$unwind" "Desconstrói" o array criado pelo $lookup para trabalhar com objetos simples
+// "$group" agrupa os documentos por id_motorista e soma os km_percorrido
+// "$project" formata o resultado final, removendo campos desnecessários
+// "_id: 0" Remove o campo _id padrão do mongoDB do resultado
+db.entregas.aggregate([
+    {
+        $lookup: {
+            from: "motoristas",
+            localField: "id_motorista",
+            foreignField: "id_motorista",
+            as: "motorista_info"
+        }
+    },
+    {
+        $unwind: "$motorista_info"
+    },
+    {
+        $group: {
+            _id: "$id_motorista",
+            nome_motorista: { $first: "$motorista_info.nome" },
+            total_km_percorridos: { $sum: "$km_percorrido" }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            motorista: "$nome_motorista",
+            total_km_percorridos: 1
+        }
+    }
+])
  
+// 4.4
+// O supervisor quer analisar as entregas realizadas entre 18 e 20 de outubro de 2025.
+// Mostre id_entrega, data_saida, status_entrega e km_percorrido
+// apenas das entregas cuja saída esteja entre 2025-10-18 00:00:00 e 2025-10-20 23:59:59.
+// Use o operador BETWEEN equivalente em MongoDB ($gte e $lte).
+// Resposta
+// Comando "find" faz a busca
+// $gte "greater than or equal" (maior ou igual) - define o início do intervalo como 18/out/25
+// $lte "less than or equal" (menor ou igual) - define o fim do intervalo como 20/out/25
+// ISODate() - para garantir que as datas sejam encontradas corretamente
+// Dentro do segundo array {} são escolhidos os campos id_entrega, data_saida, status_entrega, km_percorrido com :1 para garantir sua exibição
+// "_id: 0" Remove o campo _id padrão do mongoDB do resultado
+db.entregas.find(
+    {
+        data_saida: {
+            $gte: ISODate("2025-10-18T00:00:00Z"),
+            $lte: ISODate("2025-10-20T23:59:59Z")
+        }
+    },
+    {
+        id_entrega: 1,
+        data_saida: 1,
+        status_entrega: 1,
+        km_percorrido: 1,
+        _id: 0
+    }
+)
+
+// 4.5
+// Monte um relatório de entregas concluídas, unindo informações de cliente, pedido, motorista e veículo.
+// Mostre:
+// id_entrega, destino_final, data_entrega,
+// nome do motorista, placa do veículo, descricao_carga e razao_social do cliente.
+// Utilize INNER JOIN equivalente em MongoDB ($lookup)
+// entre as coleções entregas, motoristas, veiculos, pedidos_transporte e clientes.
+// Considere apenas entregas com status "ENTREGUE".
+// Resposta
+// aggregate faz o agrupamento dos resultados
+// Primeiro estágio: filtrar apenas entregas concluídas usando $match: com campo status_entrega= "ENTREGUE"
+// JOIN com a coleção motoristas usando comando $lookup selecionando coleção from: "motoristas", campos localField: "id_motorista",
+// e foreignField: "id_motorista", e tudo isso com o "apelido " as: "motorista"
+// na sequencia, JOIN com a coleção veiculos usando $lookup: da coleção from: "veiculos", campos localField: "id_veiculo" ,
+// e foreignField: "id_veiculo", como o "apelido" as: "veiculo"
+// JOIN com a coleção pedidos_transporte usando $lookup: buscando a coleção from: "pedidos_transporte" e os campos localField: "id_pedido",
+// foreignField: "id_pedido", considerando como apelido as: "pedido"
+// Depois vem a desconstrução dos arrays criados pelos lookups usando $unwind: e chamando os apelidos "$motorista","$veiculo" e $unwind: "$pedido"       
+// JOIN com a coleção clientes (através do pedido) unsando $lookup: e a coleção from: "clientes" e as chaves localField: "pedido.id_cliente",
+// foreignField: "id_cliente", como apelido as : "cliente"
+// Agora, a desconstrução do $lookup usando $unwind: "$cliente"
+// Por ultimo e não menos importante,  na Projeção final: selecionar apenas os campos necessários usando $project
+// São selecionados os campos: _id: 0 (não será exibido, id padrão do MongoDB), 
+// id_entrega: 1, destino_final: 1, data_entrega: 1, 
+// nome_motorista: "$motorista.nome" (será exibido como nome_motorista), 
+// placa_veiculo: "$veiculo.placa" (exibido como placa_veiculo),
+// descricao_carga: "$pedido.descricao_carga" (será exibido como descricao_carga) e 
+// razao_social_cliente: "$cliente.razao_social" (será exibido como razao_social_cliente)
+db.entregas.aggregate([
+    {
+        $match: {
+            status_entrega: "ENTREGUE"
+        }
+    },
+    {
+        $lookup: {
+            from: "motoristas",
+            localField: "id_motorista",
+            foreignField: "id_motorista",
+            as: "motorista"
+        }
+    },
+    {
+        $lookup: {
+            from: "veiculos",
+            localField: "id_veiculo",
+            foreignField: "id_veiculo",
+            as: "veiculo"
+        }
+    },
+    {
+        $lookup: {
+            from: "pedidos_transporte",
+            localField: "id_pedido",
+            foreignField: "id_pedido",
+            as: "pedido"
+        }
+    },
+    {
+        $unwind: "$motorista"
+    },
+    {
+        $unwind: "$veiculo"
+    },
+    {
+        $unwind: "$pedido"
+    },
+    {
+        $lookup: {
+            from: "clientes",
+            localField: "pedido.id_cliente",
+            foreignField: "id_cliente",
+            as: "cliente"
+        }
+    },
+    {
+        $unwind: "$cliente"
+    },
+    {
+        $project: {
+            _id: 0,
+            id_entrega: 1,
+            destino_final: 1,
+            data_entrega: 1,
+            nome_motorista: "$motorista.nome",
+            placa_veiculo: "$veiculo.placa",
+            descricao_carga: "$pedido.descricao_carga",
+            razao_social_cliente: "$cliente.razao_social"
+        }
+    }
+])
  
-4.3
-A coordenação quer saber o esforço de cada motorista.
-Mostre o nome do motorista e o total de quilômetros percorridos somando todas as entregas.
- Use agregação e agrupe por motorista.
- 
-4.4
-O supervisor quer analisar as entregas realizadas entre 18 e 20 de outubro de 2025.
-Mostre id_entrega, data_saida, status_entrega e km_percorrido
- apenas das entregas cuja saída esteja entre 2025-10-18 00:00:00 e 2025-10-20 23:59:59.
- Use o operador BETWEEN equivalente em MongoDB ($gte e $lte).
- 
-4.5
-Monte um relatório de entregas concluídas, unindo informações de cliente, pedido, motorista e veículo.
-Mostre:
- id_entrega, destino_final, data_entrega,
- nome do motorista, placa do veículo, descricao_carga e razao_social do cliente.
-Utilize INNER JOIN equivalente em MongoDB ($lookup)
- entre as coleções entregas, motoristas, veiculos, pedidos_transporte e clientes.
- Considere apenas entregas com status "ENTREGUE".
- 
-4.6
-A gerência de frota quer saber o uso de cada veículo, inclusive os que ainda não rodaram.
-Liste id_veiculo, placa, tipo, status e a quantidade de entregas realizadas por cada veículo.
-Use LEFT JOIN equivalente em MongoDB ($lookup) e agrupamento por veículo.
- Veículos sem entrega devem aparecer com quantidade igual a 0.
+// 4.6
+// A gerência de frota quer saber o uso de cada veículo, inclusive os que ainda não rodaram.
+// Liste id_veiculo, placa, tipo, status e a quantidade de entregas realizadas por cada veículo.
+// Use LEFT JOIN equivalente em MongoDB ($lookup) e agrupamento por veículo.
+// Veículos sem entrega devem aparecer com quantidade igual a 0.
+// Resposta
+// Agregar os dados usando aggregate
+// LEFT JOIN com a coleção entregas usando $lookup: da coleção from: "entregas",
+// e os campos localField: "id_veiculo" e foreignField: "id_veiculo", com o apelido as: "entregas_veiculo"
+// Agrupa por veículo e conta a quantidade de entregas usando $group: e as chaves _id: "$id_veiculo",
+// placa: { $first: "$placa" }, tipo: { $first: "$tipo" }, status: { $first: "$status" } são mantidas 
+// e quantidade_entregas é feita uma soma contando a qtd de entregas de cada veiculo{ $sum: { $size: "$entregas_veiculo" } }
+// Projeção final: formata os campos de saída usando $project, ignora o id padrão do mongo (_id: 0), e exibe
+// id_veiculo: "$_id", placa: 1, tipo: 1, status: 1, quantidade_entregas: 1      
+// e ordena por id_veiculo para melhor visualização usando $sort: id_veiculo: 1
+db.veiculos.aggregate([
+    {
+        $lookup: {
+            from: "entregas",
+            localField: "id_veiculo",
+            foreignField: "id_veiculo",
+            as: "entregas_veiculo"
+        }
+    },
+    {
+        $group: {
+            _id: "$id_veiculo",
+            placa: { $first: "$placa" },
+            tipo: { $first: "$tipo" },
+            status: { $first: "$status" },
+            quantidade_entregas: { $sum: { $size: "$entregas_veiculo" } }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            id_veiculo: "$_id",
+            placa: 1,
+            tipo: 1,
+            status: 1,
+            quantidade_entregas: 1
+        }
+    },
+    {
+        $sort: {
+            id_veiculo: 1
+        }
+    }
+])
